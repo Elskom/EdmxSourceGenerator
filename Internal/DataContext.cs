@@ -15,7 +15,8 @@ internal class DataContext
             if (elem.Name.LocalName is "EntitySet")
             {
                 var entityName = elem.Attribute("Name").Value;
-                var entityType = elem.Attribute("EntityType").Value.Split('.')[1];
+                var splittedEntityType = elem.Attribute("EntityType").Value.Split('.');
+                var entityType = splittedEntityType[splittedEntityType.Length - 1];
                 this.EntitySets.Add(new(entityName, entityType));
             }
             else if (elem.Name.LocalName is "FunctionImport")
