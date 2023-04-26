@@ -5,6 +5,25 @@
     <LangVersion>10</LangVersion>
     <DebugType>embedded</DebugType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <Copyright>Copyright (c) 2023</Copyright>
+    <!-- Suppresses the warnings about the package not having assemblies in lib/*/.dll.-->
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <NoWarn>$(NoWarn);NU5128;NU5127;RS2003</NoWarn>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <Company>Els_kom org.</Company>
+    <Authors>Els_kom org.</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Elskom/EdmxSourceGenerator/</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Elskom/EdmxSourceGenerator/</PackageProjectUrl>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts\</PackageOutputPath>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <DebugSymbols>true</DebugSymbols>
+    <!-- suppress message when using the .NET Preview SDKs. -->
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
