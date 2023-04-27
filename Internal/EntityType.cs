@@ -15,11 +15,18 @@ internal class EntityType
             if (elem.Name.LocalName is "Property")
             {
                 var name = elem.Attribute("Name").Value;
+                var type = elem.Attribute("Type").Value;
+                var nullable = elem.Attribute("Nullable")?.Value;
+                if (string.IsNullOrEmpty(nullable))
+                {
+                    nullable = "true";
+                }
+
                 this.Properties.Add(
                     new Property(
                         name,
-                        elem.Attribute("Type").Value,
-                        Convert.ToBoolean(elem.Attribute("Nullable")?.Value)));
+                        type,
+                        Convert.ToBoolean(nullable)));
             }
             else if (elem.Name.LocalName is "NavigationProperty")
             {

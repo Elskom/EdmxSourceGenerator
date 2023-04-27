@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Fixed a bug in nullability checking when reading from an edmx files where properties should be nullable.</PackageReleaseNotes>
     <DebugType>embedded</DebugType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Copyright>Copyright (c) 2023</Copyright>
@@ -24,6 +26,7 @@
     <!-- suppress message when using the .NET Preview SDKs. -->
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NuSpecFile>$(MSBuildProjectName).nuspec</NuSpecFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,5 +36,7 @@
   <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
+
+  <Import Project="$(MSBuildProjectName).targets" />
 
 </Project>

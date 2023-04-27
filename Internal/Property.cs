@@ -14,7 +14,7 @@ internal class Property
     internal bool Nullable { get; private set; }
 
     public override string ToString()
-        => $@"public {this.TypeToCodeString()}{(this.Nullable == true ? "?" : "")} {this.Name} {{ get; set; }}";
+        => $@"public {this.TypeToCodeString()}{(this.Nullable ? "?" : "")} {this.Name} {{ get; set; }}";
 
     private string TypeToCodeString()
     {
