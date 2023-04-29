@@ -9,7 +9,7 @@
     <license type="expression">MIT</license>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://github.com/Elskom/EdmxSourceGenerator</projectUrl>
-    <description>Source Generator for dumping generating source code from an edmx file as an alternative to text templates.</description>
+    <description>Source Generator for dumping generating source code from an edmx file as an alternative to text templates. Also can generate metadata on the entity types as well with a special MetaData.yml file.</description>
     <releaseNotes>$PackageReleaseNotes$</releaseNotes>
     <copyright>Copyright (c) 2023</copyright>
     <repository type="git" url="https://github.com/Elskom/EdmxSourceGenerator.git" />
@@ -18,6 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="$BaseOutputPath$**" target="analyzers\cs\" />
+    <file src="$BaseOutputPath$EdmxSourceGenerator.dll" target="analyzers\cs\" />
+    <file src="$BaseOutputPath$YamlDotNet.dll" target="analyzers\cs\" />
   </files>
 </package>

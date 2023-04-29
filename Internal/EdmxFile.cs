@@ -19,14 +19,16 @@ internal class EdmxFile
                     var csdlSchema = (XElement)edmxCsdl.FirstNode;
                     if (csdlSchema != null)
                     {
-                        var @namespace = csdlSchema.Attribute("Namespace").Value;
-                        var typeReader = new EntityTypeReader(@namespace, csdlSchema);
-                        this.GeneratedFiles.AddRange(typeReader.GetGeneratedFiles());
+                        this.Namespace = csdlSchema.Attribute("Namespace").Value;
+                        this.TypeReader = new EntityTypeReader(this.Namespace, csdlSchema);
+                        this.GeneratedFiles.AddRange(this.TypeReader.GetGeneratedFiles());
                     }
                 }
             }
         }
     }
 
-    internal List<(string FileName, string Code)> GeneratedFiles { get; set; } = new();
+    internal string Namespace { get; private set; }
+    internal List<(string FileName, string Code)> GeneratedFiles { get; private set; } = new();
+    internal EntityTypeReader TypeReader { get; private set; }
 }

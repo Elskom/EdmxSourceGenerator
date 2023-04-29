@@ -123,7 +123,7 @@ public partial class {this.Name}
         return result;
     }
 
-    internal bool ConstructorNeeded()
+    private bool ConstructorNeeded()
     {
         var result = false;
         foreach (var navigationProperty in this.NavigationProperties)
