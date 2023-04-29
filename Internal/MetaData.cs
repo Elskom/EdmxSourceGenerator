@@ -75,7 +75,7 @@ using System.ComponentModel.DataAnnotations;
         foreach (var node in mapping.Children)
         {
             result += $@"
-[(typeof({node.Key}MetaData))]
+{(indent ? "    " : "")}[MetadataType(typeof({node.Key}MetaData))]
 {(indent ? "    " : "")}public partial class {node.Key}
 {(indent ? "    " : "")}{{
 {(indent ? "    " : "")}    private sealed class {node.Key}MetaData
