@@ -33,12 +33,7 @@ using System.ComponentModel.DataAnnotations;
             {
                 var edmxFile = this.EdmxFiles[0];
                 result += $@"namespace {edmxFile.Namespace};
-
-";
-                foreach (var entityType in edmxFile.TypeReader.EntityTypes)
-                {
-                    result += this.WriteEntityMetadata(entityType);
-                }
+{this.WriteEntityMetadata()}";
             }
             else
             {
@@ -46,13 +41,7 @@ using System.ComponentModel.DataAnnotations;
                 {
                     result += $@"namespace {edmxFile.Namespace}
 {{
-";
-                    foreach (var entityType in edmxFile.TypeReader.EntityTypes)
-                    {
-                        result += this.WriteEntityMetadata(entityType, true);
-                    }
-
-                    result += @"}
+{this.WriteEntityMetadata(true)}}}
 ";
                 }
             }
@@ -61,7 +50,7 @@ using System.ComponentModel.DataAnnotations;
         return result;
     }
 
-    private string WriteEntityMetadata(EntityType entityType, bool indent = false)
+    private string WriteEntityMetadata(bool indent = false)
     {
         // Setup the input
         using var content = new StringReader(this.Content);
@@ -85,28 +74,31 @@ using System.ComponentModel.DataAnnotations;
             {
                 foreach (var child in ((YamlMappingNode)valueNode).Children)
                 {
-                    foreach (var attributes in ((YamlSequenceNode)child.Value).Children)
+                    var _type = string.Empty;
+                    foreach (var tmp1 in ((YamlSequenceNode)child.Value).Children)
                     {
-                        result += $@"{(indent ? "    " : "")}        [{attributes}]
+                        foreach (var __type in ((YamlMappingNode)tmp1).Children.Where(n => n.Key.ToString() == "PropertyType"))
+                        {
+                            _type = __type.Value.ToString();
+                        }
+
+                        foreach (var tmp2 in ((YamlMappingNode)tmp1).Children.Where(n => n.Key.ToString() == "attributes"))
+                        {
+                            foreach (var attributes in ((YamlSequenceNode)tmp2.Value).Children)
+                            {
+                                result += $@"{(indent ? "    " : "")}        [{attributes}]
 ";
+                            }
+                        }
                     }
 
-                    var property = entityType.Properties.FirstOrDefault(prop => prop.Name == child.Key.ToString());
-                    var navicationProperty = entityType.NavigationProperties.FirstOrDefault(np => np.Name == child.Key.ToString());
-                    if (property != null)
-                    {
-                        result += $@"{(indent ? "    " : "")}        {property}
+                    result += $@"{(indent ? "    " : "")}        public {_type} {child.Key} {{ get; set; }}
 ";
-                    }
-                    else if (navicationProperty != null)
-                    {
-                        result += $@"{(indent ? "    " : "")}        public {(navicationProperty.IsCollection ? $"ICollection<{navicationProperty.ToRole}>" : navicationProperty.ToRole)}  {navicationProperty.Name} {{ get; set; }}
-";
-                    }
                 }
             }
 
-            result += $@"{(indent ? "    " : "")}}}
+            result += $@"{(indent ? "    " : "")}    }}
+{(indent ? "    " : "")}}}
 ";
         }
 
