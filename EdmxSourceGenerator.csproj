@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
-    <Version>1.1.2</Version>
-    <PackageReleaseNotes>Mixed metadata generation.</PackageReleaseNotes>
+    <Version>1.1.3</Version>
+    <PackageReleaseNotes>Generate a shotcut create method for DbContext types.</PackageReleaseNotes>
     <DebugType>embedded</DebugType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Copyright>Copyright (c) 2023</Copyright>

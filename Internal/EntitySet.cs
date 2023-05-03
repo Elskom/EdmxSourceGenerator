@@ -12,6 +12,6 @@ internal class EntitySet
     internal string EntityType { get; private set; }
 
     public override string ToString()
-        => $@"public virtual DbSet<{this.EntityType}> {this.Name} {{ get; set; }}
+        => $@"public virtual DbSet<{this.EntityType}> {this.Name} {{ get; set; }} = null!;
 ";
 }
