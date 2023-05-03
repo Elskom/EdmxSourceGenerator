@@ -51,6 +51,7 @@ internal class EntityTypeReader
         }
 
         results.Add(($"{this.DataContext.Name}.g.cs", this.DataContext.ToString()));
+        results.Add(($"{this.DataContext.Name}.Methods.g.cs", this.DataContext.ToMethodCodeString()));
         return results;
     }
 
