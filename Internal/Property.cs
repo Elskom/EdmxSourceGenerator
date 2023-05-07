@@ -9,9 +9,9 @@ internal class Property
         this.Nullable = nullable;
     }
 
-    internal string Name { get; private set; }
-    internal string Type { get; private set; }
-    internal bool Nullable { get; private set; }
+    private string Name { get; }
+    private string Type { get; }
+    private bool Nullable { get; }
 
     public override string ToString()
         => $@"public {this.TypeToCodeString()}{(this.Nullable ? "?" : "")} {this.Name} {{ get; set; }}";

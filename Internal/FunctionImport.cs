@@ -5,7 +5,7 @@ internal class FunctionImport
     internal FunctionImport(string name)
         => this.Name = name;
 
-    internal string Name { get; private set; }
+    private string Name { get; }
 
     public override string ToString()
         => $@"

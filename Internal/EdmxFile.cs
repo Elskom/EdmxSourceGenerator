@@ -8,27 +8,25 @@ internal class EdmxFile
     internal EdmxFile(string content)
     {
         var document = XDocument.Parse(content);
-        if (document.Root.Name.LocalName == "Edmx")
+        if (document.Root!.Name.LocalName != "Edmx")
         {
-            var edmxRuntime = (XElement)document.Root.FirstNode.NextNode;
-            if (edmxRuntime != null)
-            {
-                var edmxCsdl = (XElement)edmxRuntime.FirstNode.NextNode.NextNode.NextNode;
-                if (edmxCsdl != null)
-                {
-                    var csdlSchema = (XElement)edmxCsdl.FirstNode;
-                    if (csdlSchema != null)
-                    {
-                        this.Namespace = csdlSchema.Attribute("Namespace").Value;
-                        this.TypeReader = new EntityTypeReader(this.Namespace, csdlSchema);
-                        this.GeneratedFiles.AddRange(this.TypeReader.GetGeneratedFiles());
-                    }
-                }
-            }
+            return;
         }
+        
+        var edmxRuntime = (XElement)document.Root.FirstNode.NextNode;
+        var edmxCsdl = (XElement)edmxRuntime?.FirstNode.NextNode.NextNode.NextNode;
+        var csdlSchema = (XElement)edmxCsdl?.FirstNode;
+        if (csdlSchema == null)
+        {
+            return;
+        }
+        
+        this.Namespace = csdlSchema.Attribute("Namespace")!.Value;
+        this.TypeReader = new EntityTypeReader(this.Namespace, csdlSchema);
+        this.GeneratedFiles.AddRange(this.TypeReader.GetGeneratedFiles());
     }
 
-    internal string Namespace { get; private set; }
-    internal List<(string FileName, string Code)> GeneratedFiles { get; private set; } = new();
-    internal EntityTypeReader TypeReader { get; private set; }
+    internal string Namespace { get; }
+    internal List<(string fileName, string code)> GeneratedFiles { get; } = new();
+    private EntityTypeReader TypeReader { get; }
 }

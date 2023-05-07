@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Xml.Linq;
 
 internal class EntityType
@@ -13,28 +14,32 @@ internal class EntityType
         var elem = (XElement)element.FirstNode;
         do
         {
-            if (elem.Name.LocalName is "Property")
+            switch (elem.Name.LocalName)
             {
-                var name = elem.Attribute("Name").Value;
-                var type = elem.Attribute("Type").Value;
-                var nullable = elem.Attribute("Nullable")?.Value;
-                if (string.IsNullOrEmpty(nullable))
+                case "Property":
                 {
-                    nullable = "true";
-                }
+                    var name = elem.Attribute("Name")!.Value;
+                    var type = elem.Attribute("Type")!.Value;
+                    var nullable = elem.Attribute("Nullable")?.Value;
+                    if (string.IsNullOrEmpty(nullable))
+                    {
+                        nullable = "true";
+                    }
 
-                this.Properties.Add(
-                    new Property(
-                        name,
-                        type,
-                        Convert.ToBoolean(nullable)));
-            }
-            else if (elem.Name.LocalName is "NavigationProperty")
-            {
-                var name = elem.Attribute("Name").Value;
-                var fromRole = elem.Attribute("FromRole").Value;
-                var toRole = elem.Attribute("ToRole").Value;
-                this.NavigationProperties.Add(new NavigationProperty(name, fromRole, toRole));
+                    this.Properties.Add(
+                        new Property(
+                            name,
+                            type,
+                            Convert.ToBoolean(nullable)));
+                    break;
+                }
+                case "NavigationProperty":
+                {
+                    var name = elem.Attribute("Name")!.Value;
+                    var toRole = elem.Attribute("ToRole")!.Value;
+                    this.NavigationProperties.Add(new NavigationProperty(name, toRole));
+                    break;
+                }
             }
 
             elem = (XElement)elem.NextNode;
@@ -42,10 +47,10 @@ internal class EntityType
         while (elem != null);
     }
 
-    internal string Namespace { get; private set; }
     internal string Name { get; set; }
-    internal List<Property> Properties { get; private set; } = new();
-    internal List<NavigationProperty> NavigationProperties { get; set; } = new();
+    private string Namespace { get; }
+    private List<Property> Properties { get; } = new();
+    private List<NavigationProperty> NavigationProperties { get; } = new();
 
     public override string ToString()
     {
@@ -107,16 +112,6 @@ public partial class {this.Name}
     }
 
     private bool ConstructorNeeded()
-    {
-        var result = false;
-        foreach (var navigationProperty in this.NavigationProperties)
-        {
-            if (navigationProperty.IsCollection)
-            {
-                result = true;
-            }
-        }
-
-        return result;
-    }
+        => this.NavigationProperties.Any(
+            navigationProperty => navigationProperty.IsCollection);
 }

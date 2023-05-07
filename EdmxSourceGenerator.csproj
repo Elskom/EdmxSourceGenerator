@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
-    <Version>1.1.4</Version>
-    <PackageReleaseNotes>Generate entity set Create/Edit/Delete methods.</PackageReleaseNotes>
+    <Version>1.1.5</Version>
+    <PackageReleaseNotes>Optimize source generator some more.</PackageReleaseNotes>
     <DebugType>embedded</DebugType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Copyright>Copyright (c) 2023</Copyright>

@@ -13,17 +13,22 @@ internal class DataContext
         var elem = (XElement)element.FirstNode;
         do
         {
-            if (elem.Name.LocalName is "EntitySet")
+            switch (elem.Name.LocalName)
             {
-                var entityName = elem.Attribute("Name").Value;
-                var splittedEntityType = elem.Attribute("EntityType").Value.Split('.');
-                var entityType = splittedEntityType[splittedEntityType.Length - 1];
-                this.EntitySets.Add(new(entityName, entityType));
-            }
-            else if (elem.Name.LocalName is "FunctionImport")
-            {
-                var functionName = elem.Attribute("Name").Value;
-                this.FunctionImports.Add(new(functionName));
+                case "EntitySet":
+                {
+                    var entityName = elem.Attribute("Name")!.Value;
+                    var splittedEntityType = elem.Attribute("EntityType")!.Value.Split('.');
+                    var entityType = splittedEntityType[splittedEntityType.Length - 1];
+                    this.EntitySets.Add(new(entityName, entityType));
+                    break;
+                }
+                case "FunctionImport":
+                {
+                    var functionName = elem.Attribute("Name")!.Value;
+                    this.FunctionImports.Add(new(functionName));
+                    break;
+                }
             }
 
             elem = (XElement)elem.NextNode;
@@ -31,10 +36,10 @@ internal class DataContext
         while (elem != null);
     }
 
-    internal string Namespace { get; private set; }
-    internal string Name { get; private set; }
-    internal List<EntitySet> EntitySets { get; private set; } = new();
-    internal List<FunctionImport> FunctionImports { get; private set; } = new();
+    internal string Name { get; }
+    private string Namespace { get; }
+    private List<EntitySet> EntitySets { get; } = new();
+    private List<FunctionImport> FunctionImports { get; } = new();
 
     public string ToMethodCodeString()
     {
@@ -130,7 +135,7 @@ public partial class {this.Name} : DbContext
 
         foreach (var functionImport in this.FunctionImports)
         {
-            _ = result.Append(functionImport.ToString());
+            _ = result.Append(functionImport);
         }
 
         _ = result.Append(@"}

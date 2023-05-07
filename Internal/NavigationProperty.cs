@@ -2,17 +2,16 @@
 
 internal class NavigationProperty
 {
-    internal NavigationProperty(string name, string fromRole, string toRole)
+    internal NavigationProperty(string name, string toRole)
     {
         this.Name = name;
-        this.FromRole = fromRole;
         this.ToRole = toRole;
     }
 
-    internal string Name { get; private set; }
-    internal string FromRole { get; private set; }
-    internal string ToRole { get; private set; }
-    internal bool IsCollection => this.ToRole != this.Name;
+    private string Name { get; }
+    private string ToRole { get; }
+    internal bool IsCollection
+        => this.ToRole != this.Name;
 
     public override string ToString()
         => $@"[System.Diagnostics.CodeAnalysis.SuppressMessage(""Microsoft.Usage"", ""CA2227:CollectionPropertiesShouldBeReadOnly"")]

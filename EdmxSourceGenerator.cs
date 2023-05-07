@@ -1,6 +1,6 @@
 ﻿namespace EdmxSourceGenerator;
 
-using global::EdmxSourceGenerator.Internal;
+using Internal;
 using Microsoft.CodeAnalysis;
 using System.Linq;
 
@@ -13,12 +13,12 @@ public class EdmxSourceGenerator : IIncrementalGenerator
         var additionalFiles = context.AdditionalTextsProvider.Where(
             static file => file.Path.EndsWith(".edmx") || file.Path.EndsWith("MetaData.yml"));
         var combined = additionalFiles.Collect();
-        context.RegisterSourceOutput(combined, (context, additionalTexts) =>
+        context.RegisterSourceOutput(combined, (sourceProductionContext, additionalTexts) =>
         {
             var metaDataGenerator = new MetaDataGenerator(additionalTexts.ToArray());
-            foreach (var (FileName, Code) in metaDataGenerator.GetGeneratedFiles())
+            foreach (var (fileName, code) in metaDataGenerator.GetGeneratedFiles())
             {
-                context.AddSource(FileName, Code);
+                sourceProductionContext.AddSource(fileName, code);
             }
         });
     }

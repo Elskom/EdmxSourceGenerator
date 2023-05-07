@@ -16,8 +16,8 @@ internal class EnumType
         {
             if (elem.Name.LocalName is "Member")
             {
-                var memberName = elem.Attribute("Name").Value;
-                var memberValue = Convert.ToInt32(elem.Attribute("Value").Value);
+                var memberName = elem.Attribute("Name")!.Value;
+                var memberValue = Convert.ToInt32(elem.Attribute("Value")!.Value);
                 this.Members.Add((memberName, memberValue));
             }
 
@@ -26,9 +26,9 @@ internal class EnumType
         while (elem != null);
     }
 
-    internal string Namespace { get; private set; }
-    internal string Name { get; private set; }
-    internal List<(string, int)> Members { get; private set; } = new();
+    internal string Name { get; }
+    private string Namespace { get; }
+    private List<(string, int)> Members { get; } = new();
 
     public override string ToString()
     {
