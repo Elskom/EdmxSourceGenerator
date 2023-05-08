@@ -25,7 +25,21 @@ internal class Property
             "Boolean" => "bool",
             "Int32" => "int",
             "Decimal" => "decimal",
+            "Double" => "double",
+            "Int16" => "short",
+            "Byte" => "byte",
+            "Byte[]" => "byte[]",
+            "Object" => "object",
             _ => splittedType[splittedType.Length - 1],
         };
     }
+
+    internal bool SystemUsingNeeded()
+        => this.Type switch
+        {
+            "DateTime" => true,
+            "DateTimeOffset" => true,
+            "TimeSpan" => true,
+            _ => false,
+        };
 }
