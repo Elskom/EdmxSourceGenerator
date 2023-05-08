@@ -20,5 +20,6 @@
   <files>
     <file src="$BaseOutputPath$EdmxSourceGenerator.dll" target="analyzers\cs\" />
     <file src="$BaseOutputPath$YamlDotNet.dll" target="analyzers\cs\" />
+    <file src="build/EdmxSourceGenerator.props" target="build\" />
   </files>
 </package>

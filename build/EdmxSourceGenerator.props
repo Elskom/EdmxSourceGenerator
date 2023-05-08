@@ -1,0 +1,14 @@
+<Project>
+    <ItemGroup>
+        <!-- Only manually include this on non-.NET SDK style projects. These are automactically added for SDK style projects. -->
+        <Analyzer Include="$(MSBuildThisFileDirectory)../analyzers/cs/YamlDotNet.dll" Condition="'$(UsingMicrosoftNETSdk)' != 'true'" />
+        <Analyzer Include="$(MSBuildThisFileDirectory)../analyzers/cs/EdmxSourceGenerator.dll" Condition="'$(UsingMicrosoftNETSdk)' != 'true'" />
+        <!-- Automatically include the Edmx files in all projects under AdditionalFiles. -->
+        <AdditionalFiles Include="**/*.edmx" />
+        <!--
+            Automatically include the MetaData.yml file wherever it lies in the project file.
+            Projects MUST ONLY have a single file with this name to avoid problems with the source generator.
+        -->
+        <AdditionalFiles Include="**/MetaData.yml" />
+    </ItemGroup>
+</Project>
