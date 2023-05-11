@@ -19,6 +19,7 @@ internal class EntityType
                 case "Property":
                 {
                     var name = elem.Attribute("Name")!.Value;
+                    var maxLength = elem.Attribute("MaxLength")?.Value;
                     var type = elem.Attribute("Type")!.Value;
                     var nullable = elem.Attribute("Nullable")?.Value;
                     if (string.IsNullOrEmpty(nullable))
@@ -29,6 +30,7 @@ internal class EntityType
                     this.Properties.Add(
                         new Property(
                             name,
+                            maxLength,
                             type,
                             Convert.ToBoolean(nullable)));
                     break;
@@ -59,7 +61,8 @@ namespace {this.Namespace};
 
 {(this.SystemUsingNeeded() ? @"using System;
 " : "")}{(this.ConstructorNeeded() ? @"using System.Collections.Generic;
-" : "")}
+" : "")}{(this.DataAnnotationsNeeded() ? @"using System.ComponentModel.DataAnnotations;
+": "")}
 public partial class {this.Name}
 {{
     ");
@@ -90,9 +93,11 @@ public partial class {this.Name}
         foreach (var property in this.Properties)
         {
             _ = this.Properties.IndexOf(property) + 1 < this.Properties.Count
-                ? result.Append($@"{property}
+                ? result.Append($@"{property.MaxLengthToCodeString()}{(!string.IsNullOrEmpty(property.MaxLengthToCodeString()) ? @"
+    " : "")}{property}
     ")
-                : result.Append($@"{property}
+                : result.Append($@"{property.MaxLengthToCodeString()}{(!string.IsNullOrEmpty(property.MaxLengthToCodeString()) ? @"
+    " : "")}{property}
 ");
         }
 
@@ -118,4 +123,8 @@ public partial class {this.Name}
     private bool SystemUsingNeeded()
         => this.Properties.Any(
             prop => prop.SystemUsingNeeded());
+
+    private bool DataAnnotationsNeeded()
+        => this.Properties.Any(
+            prop => !string.IsNullOrEmpty(prop.MaxLengthToCodeString()));
 }

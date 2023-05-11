@@ -12,7 +12,7 @@ internal class EdmxFile
         {
             return;
         }
-        
+
         var edmxRuntime = (XElement)document.Root.FirstNode.NextNode;
         var edmxCsdl = (XElement)edmxRuntime?.FirstNode.NextNode.NextNode.NextNode;
         var csdlSchema = (XElement)edmxCsdl?.FirstNode;
@@ -20,7 +20,7 @@ internal class EdmxFile
         {
             return;
         }
-        
+
         this.Namespace = csdlSchema.Attribute("Namespace")!.Value;
         this.TypeReader = new EntityTypeReader(this.Namespace, csdlSchema);
         this.GeneratedFiles.AddRange(this.TypeReader.GetGeneratedFiles());
