@@ -14,9 +14,10 @@ internal class NavigationProperty
         => this.ToRole != this.Name;
 
     public override string ToString()
-        => $@"[System.Diagnostics.CodeAnalysis.SuppressMessage(""Microsoft.Usage"", ""CA2227:CollectionPropertiesShouldBeReadOnly"")]
-    public virtual {(this.IsCollection ? $"ICollection<{this.ToRole}>" : this.ToRole)} {this.Name} {{ get; set; }}
+        => $@"{(this.IsCollection ? @"[SuppressMessage(""Microsoft.Usage"", ""CA2227:CollectionPropertiesShouldBeReadOnly"")]
+    ": "")}public virtual {(this.IsCollection ? $"ICollection<{this.ToRole}>" : this.ToRole)} {this.Name} {{ get; set; }}
 ";
+
     internal string ToConstructorCode()
         => this.IsCollection ? $"        this.{this.Name} = new HashSet<{this.ToRole}>();" : string.Empty;
 }

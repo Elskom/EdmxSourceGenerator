@@ -62,7 +62,8 @@ namespace {this.Namespace};
 {(this.SystemUsingNeeded() ? @"using System;
 " : "")}{(this.ConstructorNeeded() ? @"using System.Collections.Generic;
 " : "")}{(this.DataAnnotationsNeeded() ? @"using System.ComponentModel.DataAnnotations;
-": "")}
+": "")}{(this.ConstructorNeeded() ? @"using System.Diagnostics.CodeAnalysis;
+" : "")}
 public partial class {this.Name}
 {{
     ");
