@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
-    <Version>1.1.9</Version>
-    <PackageReleaseNotes>Fixed a bug where navigation properties generate with a needles warning suppression.</PackageReleaseNotes>
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>Fixed incorrect return type in generated context Create static methods.</PackageReleaseNotes>
     <DebugType>embedded</DebugType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Copyright>Copyright (c) 2023</Copyright>

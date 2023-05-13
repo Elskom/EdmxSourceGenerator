@@ -101,7 +101,7 @@ public partial class {this.Name} : DbContext
     {{
     }}
 
-    public static HomeInventoryEntities Create()
+    public static {this.Name} Create()
         => new();
 
     public override async Task<int> SaveChangesAsync()
