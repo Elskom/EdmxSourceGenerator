@@ -62,7 +62,8 @@ namespace {this.Namespace};
 {(this.SystemUsingNeeded() ? @"using System;
 " : "")}{(this.ConstructorNeeded() ? @"using System.Collections.Generic;
 " : "")}{(this.DataAnnotationsNeeded() ? @"using System.ComponentModel.DataAnnotations;
-": "")}{(this.ConstructorNeeded() ? @"using System.Diagnostics.CodeAnalysis;
+" : "")}{(this.DataAnnotationsSchemaNeeded() ? @"using System.ComponentModel.DataAnnotations.Schema;
+" : "")}{(this.ConstructorNeeded() ? @"using System.Diagnostics.CodeAnalysis;
 " : "")}
 public partial class {this.Name}
 {{
@@ -93,6 +94,17 @@ public partial class {this.Name}
 
         foreach (var property in this.Properties)
         {
+            if (property.IsPrimaryKey(this.Name))
+            {
+                _ = result.Append(@"[Key]
+    ");
+            }
+            else if (this.NavigationProperties.Any(np => np.IsForeignKey(property, this.Name)))
+            {
+                _ = result.Append($@"[ForeignKey(nameof({property.Name}))]
+    ");
+            }
+
             _ = this.Properties.IndexOf(property) + 1 < this.Properties.Count
                 ? result.Append($@"{property.MaxLengthToCodeString()}{(!string.IsNullOrEmpty(property.MaxLengthToCodeString()) ? @"
     " : "")}{property}
@@ -127,5 +139,9 @@ public partial class {this.Name}
 
     private bool DataAnnotationsNeeded()
         => this.Properties.Any(
-            prop => !string.IsNullOrEmpty(prop.MaxLengthToCodeString()));
+            prop => !string.IsNullOrEmpty(prop.MaxLengthToCodeString()) || prop.IsPrimaryKey(this.Name));
+
+    private bool DataAnnotationsSchemaNeeded()
+        => this.Properties.Any(
+            p => this.NavigationProperties.Any(np => np.IsForeignKey(p, this.Name)));
 }

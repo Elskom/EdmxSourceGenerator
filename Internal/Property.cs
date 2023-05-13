@@ -1,5 +1,7 @@
 ﻿namespace EdmxSourceGenerator.Internal;
 
+using System;
+
 internal class Property
 {
     internal Property(string name, string maxLength, string type, bool nullable)
@@ -10,7 +12,7 @@ internal class Property
         this.Nullable = nullable;
     }
 
-    private string Name { get; }
+    internal string Name { get; }
     private string MaxLength { get; }
     private string Type { get; }
     private bool Nullable { get; }
@@ -26,6 +28,10 @@ internal class Property
             "TimeSpan" => true,
             _ => false,
         };
+
+    internal bool IsPrimaryKey(string entityType)
+        => this.Name.EndsWith("Id", StringComparison.InvariantCultureIgnoreCase)
+           && this.Name.Equals($"{entityType}Id", StringComparison.InvariantCultureIgnoreCase);
 
     internal string MaxLengthToCodeString()
         => !string.IsNullOrEmpty(this.MaxLength)
