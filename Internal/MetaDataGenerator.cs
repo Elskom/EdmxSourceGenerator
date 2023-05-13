@@ -6,11 +6,11 @@ using System.Linq;
 
 internal class MetaDataGenerator
 {
-    internal MetaDataGenerator(AdditionalText[] additionalTexts)
+    internal MetaDataGenerator(bool referencesEfCore, AdditionalText[] additionalTexts)
     {
         var edmxFiles = additionalTexts
             .Where(additionalText => additionalText.Path.EndsWith(".edmx"))
-            .Select(additionalText => new EdmxFile(additionalText.GetText()!.ToString()))
+            .Select(additionalText => new EdmxFile(referencesEfCore, additionalText.GetText()!.ToString()))
             .ToList();
         this.MetaData = additionalTexts
             .Where(additionalText => additionalText.Path.EndsWith("MetaData.yml"))

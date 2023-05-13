@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 internal class EntityTypeReader
 {
-    internal EntityTypeReader(string @namespace, XElement element)
+    internal EntityTypeReader(bool referencesEfCore, string @namespace, XElement element)
     {
         var elem = (XElement)element.FirstNode;
         do
@@ -35,7 +35,7 @@ internal class EntityTypeReader
                 case "EntityContainer":
                 {
                     var name = elem.Attribute("Name")!.Value;
-                    this.DataContext = new DataContext(@namespace, name, elem);
+                    this.DataContext = new DataContext(referencesEfCore, @namespace, name, elem);
                     break;
                 }
             }

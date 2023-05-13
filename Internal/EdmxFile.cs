@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 internal class EdmxFile
 {
-    internal EdmxFile(string content)
+    internal EdmxFile(bool referencesEfCore, string content)
     {
         var document = XDocument.Parse(content);
         if (document.Root!.Name.LocalName != "Edmx")
@@ -22,7 +22,7 @@ internal class EdmxFile
         }
 
         this.Namespace = csdlSchema.Attribute("Namespace")!.Value;
-        this.TypeReader = new EntityTypeReader(this.Namespace, csdlSchema);
+        this.TypeReader = new EntityTypeReader(referencesEfCore, this.Namespace, csdlSchema);
         this.GeneratedFiles.AddRange(this.TypeReader.GetGeneratedFiles());
     }
 
