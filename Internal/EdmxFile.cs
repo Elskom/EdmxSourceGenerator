@@ -23,10 +23,12 @@ internal class EdmxFile
 
         this.Namespace = csdlSchema.Attribute("Namespace")!.Value;
         this.TypeReader = new EntityTypeReader(referencesEfCore, this.Namespace, csdlSchema);
-        this.GeneratedFiles.AddRange(this.TypeReader.GetGeneratedFiles());
     }
 
     internal string Namespace { get; }
-    internal List<(string fileName, string code)> GeneratedFiles { get; } = new();
+
+    internal IEnumerable<(string fileName, string code)> GetGeneratedFiles()
+        => this.TypeReader.GetGeneratedFiles();
+
     private EntityTypeReader TypeReader { get; }
 }

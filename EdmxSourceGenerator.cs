@@ -16,11 +16,10 @@ public class EdmxSourceGenerator : IIncrementalGenerator
             static file => file.Path.EndsWith(".edmx") || file.Path.EndsWith("MetaData.yml"));
         var collected = additionalFiles.Collect();
         var combined = collected.Combine(referencesEfCore);
-        context.RegisterSourceOutput(combined, (sourceProductionContext, additionalTexts) =>
+        var metaDataGenerators = combined.Select(
+            (inputs, _) => new MetaDataGenerator(inputs.Right, inputs.Left.ToArray()));
+        context.RegisterSourceOutput(metaDataGenerators, (sourceProductionContext, metaDataGenerator) =>
         {
-            var metaDataGenerator = new MetaDataGenerator(
-                additionalTexts.Right,
-                additionalTexts.Left.ToArray());
             foreach (var (fileName, code) in metaDataGenerator.GetGeneratedFiles())
             {
                 sourceProductionContext.AddSource(fileName, code);

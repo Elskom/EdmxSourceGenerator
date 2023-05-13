@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
-    <Version>1.2.2</Version>
-    <PackageReleaseNotes>Added code generation support when the Microsoft.EnityFrameworkCore packages are referenced inside of a project.</PackageReleaseNotes>
+    <Version>1.2.3</Version>
+    <PackageReleaseNotes>Fixed bug where editing an edmx file ends up not regenerating the generated code.</PackageReleaseNotes>
     <DebugType>embedded</DebugType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Copyright>Copyright (c) 2023</Copyright>

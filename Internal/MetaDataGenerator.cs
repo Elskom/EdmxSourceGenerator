@@ -31,7 +31,7 @@ internal class MetaDataGenerator
         var results = new List<(string fileName, string code)>();
         foreach (var edmxFile in edmxFiles)
         {
-            results.AddRange(edmxFile.GeneratedFiles);
+            results.AddRange(edmxFile.GetGeneratedFiles());
         }
 
         if (this.MetaData != null)
